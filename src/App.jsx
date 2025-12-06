@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NavBar from "./NavBar";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
+import Body from "./components/Body";
 
 function App() {
   return (
-    <div>
-      <h1 class="text-3xl font-bold underline">Hello world!</h1>
-    </div>
+    <BrowserRouter basename="/">
+      <Routes>
+        <Route path="/" element={<Body/>}>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/profile" element={<Profile/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
