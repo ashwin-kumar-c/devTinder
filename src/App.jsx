@@ -7,8 +7,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 
 function App() {
-  console.log(store.getState(), "ST");
-  
+
   return (
     <Provider store={store}>
       <BrowserRouter basename="/">

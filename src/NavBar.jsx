@@ -4,12 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "./utils/constant";
 
 const NavBar = () => {
-  const user = useSelector(state => state.user)
+  const user = useSelector(store => store.user)
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await axios.post(`${baseUrl}/logout`, {}, {withCredentials: true})
-    navigate("/login")
+    try {
+      await axios.post(`${baseUrl}/logout`, {}, {withCredentials: true})
+      navigate("/login")
+    } catch(err) {
+      console.log(err);
+    }
   }
   
   return (
@@ -44,7 +48,9 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link onClick={handleLogout}>Logout</Link>
+              {user && (
+                <Link onClick={handleLogout}>Logout</Link>
+              )}
             </li>
           </ul>
         </div>
