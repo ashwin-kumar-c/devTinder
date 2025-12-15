@@ -4,7 +4,6 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { addConnections } from "../reducers/connectionSlice"
 
-
 const Connections = () => {
     const dispatch = useDispatch()
     const connections = useSelector(store => store.connections)
@@ -22,6 +21,10 @@ const Connections = () => {
     useEffect(() => {
         fetchConnections()
     }, [])
+
+    if (connections.length === 0) {
+      return <p className="justify-center my-10">No Requests Found</p>;
+    }
 
     return(
         <div className="text-center my-10">
