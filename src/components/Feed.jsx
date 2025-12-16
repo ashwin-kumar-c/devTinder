@@ -25,10 +25,13 @@ const Feed = () => {
     }, [])
 
     return(
-        userfeed &&
-        <div>
-            <UserFeedCard user={userfeed[0]}/>
-        </div>
+        userfeed?.length > 0 ? (
+            <div>
+                <UserFeedCard user={userfeed[0]}/>
+            </div>
+        ) : (
+            <h1 className="flex justify-center my-4">No User found</h1>
+        )
     )
 }
 

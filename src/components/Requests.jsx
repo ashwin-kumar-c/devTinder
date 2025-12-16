@@ -25,7 +25,7 @@ const Requests = () => {
 
   const reviewRequests = async (status, id) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `${baseUrl}/request/review/${status}/${id}`,
         {},
         {
