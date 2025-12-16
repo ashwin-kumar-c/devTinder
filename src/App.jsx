@@ -10,13 +10,20 @@ import Requests from "./components/Requests";
 
 function App() {
 
+  /* 
+    Login and Signup comps must be kept outside the Body Comp:
+    cause when we go to login page, the code in body comp executes 1st, then the code in login comp executes
+    this is because login comp present inside the Body comp. To avoid this, Login comp should be outside Body comp.
+  */
+
   return (
     <Provider store={store}>
       <BrowserRouter basename="/">
         <Routes>
+          <Route path="/login" element={<Login />} /> 
+
           <Route path="/" element={<Body />}>
             <Route path="/" element={<Feed />}/>
-            <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/connections" element={<Connections/>} />
             <Route path="/requests" element={<Requests/>} />
