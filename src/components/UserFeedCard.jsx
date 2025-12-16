@@ -8,7 +8,7 @@ const UserFeedCard = ({user}) => {
   const dispatch = useDispatch()
 
   const handleSendRequest = async (status, id) => {
-    const res = await axios.post(`${baseUrl}/request/${status}/${id}`, {}, {
+    await axios.post(`${baseUrl}/request/${status}/${id}`, {}, {
       withCredentials: true
     })
 

@@ -38,48 +38,48 @@ const Requests = () => {
     }
   };
 
-  if (requests.length === 0) {
-    return <p className="justify-center my-10">No Requests Found</p>;
-  }
-
   return (
-    <div className="text-center my-10">
-      <h1 className="text-bold text-white text-4xl">Requests</h1>
-      {requests?.map((request) => {
-        const { firstName, lastName, photoUrl, about, age, gender } =
-          request.fromUserId;
-        return (
-          <div
-            key={request._id}
-            className="flex m-4 p-4 justify-between items-center rounded-lg bg-base-300 w-2/3 mx-auto"
-          >
-            <div>
-              <img className="w-20 h-20 rounded-full" src={photoUrl} />
-            </div>
-            <div className="text-left mx-4">
-              <h2 className="font-bold text-xl">{`${firstName} ${lastName}`}</h2>
-              {age && gender && <p>{`${age} ${gender}`}</p>}
-              <p>{about}</p>
-            </div>
+    requests?.length > 0 ? (
+      <div className="text-center my-10">
+        <h1 className="text-bold text-white text-4xl">Requests</h1>
+        {requests?.map((request) => {
+          const { firstName, lastName, photoUrl, about, age, gender } =
+            request.fromUserId;
+          return (
+            <div
+              key={request._id}
+              className="flex m-4 p-4 justify-between items-center rounded-lg bg-base-300 w-2/3 mx-auto"
+            >
+              <div>
+                <img className="w-20 h-20 rounded-full" src={photoUrl} />
+              </div>
+              <div className="text-left mx-4">
+                <h2 className="font-bold text-xl">{`${firstName} ${lastName}`}</h2>
+                {age && gender && <p>{`${age} ${gender}`}</p>}
+                <p>{about}</p>
+              </div>
 
-            <div>
-              <button
-                className="btn btn-primary mx-2"
-                onClick={() => reviewRequests("accepted", request._id)}
-              >
-                Accept
-              </button>
-              <button
-                className="btn btn-secondary mx-2"
-                onClick={() => reviewRequests("rejected", request._id)}
-              >
-                Reject
-              </button>
+              <div>
+                <button
+                  className="btn btn-primary mx-2"
+                  onClick={() => reviewRequests("accepted", request._id)}
+                >
+                  Accept
+                </button>
+                <button
+                  className="btn btn-secondary mx-2"
+                  onClick={() => reviewRequests("rejected", request._id)}
+                >
+                  Reject
+                </button>
+              </div>
             </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    ) : (
+      <h1 className="flex justify-center my-10">No Requests Found</h1>
+    )
   );
 };
 
