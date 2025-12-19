@@ -18,7 +18,7 @@ const EditProfile = ({ user }) => {
   const dispatch = useDispatch();
 
   const handleProfileEdit = async () => {
-    const skillsArr = skills.split(",")
+    const skillsArr = skills.split(",");
     try {
       const res = await axios.patch(
         `${baseUrl}/profile/edit`,
@@ -29,7 +29,7 @@ const EditProfile = ({ user }) => {
           age,
           gender,
           about,
-          skills: skillsArr
+          skills: skillsArr,
         },
         { withCredentials: true }
       );
@@ -39,129 +39,123 @@ const EditProfile = ({ user }) => {
         setToast(false);
       }, 3000);
     } catch (err) {
-        setError(err?.response?.data);
-        console.log(err);
+      setError(err?.response?.data);
+      console.log(err);
     }
   };
 
   return (
     user && (
       <>
-        <div className="flex justify-center mx-10">
-          <div className="flex justify-center my-10">
-            <div className="card bg-base-300 w-96 shadow-xl">
+        <div className="min-h-screen bg-base-200 px-6 py-10">
+          <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {/* LEFT: EDIT PROFILE */}
+            <div className="card bg-base-100 shadow-2xl">
               <div className="card-body">
-                <h2 className="card-title">Edit Profile</h2>
+                <h2 className="card-title text-2xl mb-4">Edit Profile</h2>
 
-                <div>
-                  <label className="form-control w-full max-w-xs">
-                    <div className="label">
-                      <span className="label-text">First Name</span>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <label className="form-control">
+                    <span className="label-text">First Name</span>
                     <input
                       type="text"
                       value={firstName}
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered"
                       onChange={(e) => setFirstName(e.target.value)}
                     />
                   </label>
 
-                  <label className="form-control w-full max-w-xs">
-                    <div className="label">
-                      <span className="label-text">Last Name</span>
-                    </div>
+                  <label className="form-control">
+                    <span className="label-text">Last Name</span>
                     <input
                       type="text"
                       value={lastName}
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered"
                       onChange={(e) => setLastName(e.target.value)}
                     />
                   </label>
 
-                  <label className="form-control w-full max-w-xs">
-                    <div className="label">
-                      <span className="label-text">Photo Url</span>
-                    </div>
+                  <label className="form-control md:col-span-2">
+                    <span className="label-text">Photo URL</span>
                     <input
                       type="text"
                       value={photoUrl}
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered"
                       onChange={(e) => setPhotoUrl(e.target.value)}
                     />
                   </label>
 
-                  <label className="form-control w-full max-w-xs">
-                    <div className="label">
-                      <span className="label-text">Age</span>
-                    </div>
+                  <label className="form-control">
+                    <span className="label-text">Age</span>
                     <input
                       type="number"
                       value={age}
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered"
                       onChange={(e) => setAge(e.target.value)}
                     />
                   </label>
 
-                  <label className="form-control w-full max-w-xs">
-                    <div className="label">
-                      <span className="label-text">gender</span>
-                    </div>
-                    <input
-                      type="text"
+                  <label className="form-control">
+                    <span className="label-text">Gender</span>
+                    <select
+                      className="select select-bordered"
                       value={gender}
-                      className="input input-bordered w-full max-w-xs"
                       onChange={(e) => setGender(e.target.value)}
-                    />
+                    >
+                      <option disabled value="">
+                        Select
+                      </option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                    </select>
                   </label>
 
-                  <label className="form-control">
-                    <div className="label">
-                      <span className="label-text">About</span>
-                    </div>
+                  <label className="form-control md:col-span-2">
+                    <span className="label-text">About</span>
                     <textarea
                       className="textarea textarea-bordered h-24"
                       value={about}
                       onChange={(e) => setAbout(e.target.value)}
-                    ></textarea>
+                    />
                   </label>
 
-                  <label className="form-control">
-                    <div className="label">
-                      <span className="label-text">Skills</span>
-                    </div>
+                  <label className="form-control md:col-span-2">
+                    <span className="label-text">Skills (comma separated)</span>
                     <textarea
-                      className="textarea textarea-bordered h-24"
-                      value={skills}
-                      onChange={(e) => {
-                        const val = setSkills(e.target.value);
-                        setSkills(val.split(","));
-                      }}
-                    ></textarea>
+                      className="textarea textarea-bordered h-20"
+                      onChange={(e) => setSkills(e.target.value.split(","))}
+                    />
                   </label>
+                </div>
 
-                  <p className="text-red-500">{error}</p>
-                  <div className="card-actions justify-end my-5">
-                    <button
-                      className="btn btn-primary"
-                      onClick={handleProfileEdit}
-                    >
-                      Save Changes
-                    </button>
-                  </div>
+                {error && <p className="text-error mt-2">{error}</p>}
+
+                <div className="card-actions justify-end mt-6">
+                  <button
+                    className="btn btn-primary px-8"
+                    onClick={handleProfileEdit}
+                  >
+                    Save Changes
+                  </button>
                 </div>
               </div>
             </div>
+
+            {/* RIGHT: LIVE PREVIEW */}
+            <div className="sticky top-10 h-fit">
+              <UserFeedCard
+                user={{ firstName, lastName, photoUrl, age, gender, about }}
+              />
+            </div>
           </div>
-          <div className="my-10 ml-10">
-            <UserFeedCard
-              user={{ firstName, lastName, photoUrl, age, gender, about }}
-            />
-          </div>
-        </div>
-        <div className="toast toast-end toast-middle">
+
+          {/* TOAST */}
           {toast && (
-            <div className="alert alert-success">
-              <span>Profile updated successfully.</span>
+            <div className="toast toast-end">
+              <div className="alert alert-success shadow-lg">
+                <span>Profile updated successfully 🎉</span>
+              </div>
             </div>
           )}
         </div>

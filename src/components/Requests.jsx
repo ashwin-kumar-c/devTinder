@@ -38,8 +38,7 @@ const Requests = () => {
     }
   };
 
-  return (
-    requests?.length > 0 ? (
+    return requests?.length > 0 ? (
       <div className="text-center my-10">
         <h1 className="text-bold text-white text-4xl">Requests</h1>
         {requests?.map((request) => {
@@ -48,26 +47,46 @@ const Requests = () => {
           return (
             <div
               key={request._id}
-              className="flex m-4 p-4 justify-between items-center rounded-lg bg-base-300 w-2/3 mx-auto"
+              className="mx-auto my-4 flex w-11/12 max-w-3xl items-center justify-between gap-4 rounded-2xl 
+              bg-base-200 p-5 shadow-md transition hover:shadow-lg"
             >
-              <div>
-                <img className="w-20 h-20 rounded-full" src={photoUrl} />
-              </div>
-              <div className="text-left mx-4">
-                <h2 className="font-bold text-xl">{`${firstName} ${lastName}`}</h2>
-                {age && gender && <p>{`${age} ${gender}`}</p>}
-                <p>{about}</p>
+              {/* Avatar */}
+              <div className="flex-shrink-0">
+                <img
+                  src={photoUrl}
+                  alt={`${firstName} ${lastName}`}
+                  className="h-16 w-16 rounded-full object-cover ring ring-primary ring-offset-2 ring-offset-base-200"
+                />
               </div>
 
-              <div>
+              {/* User Info */}
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold text-base-content">
+                  {firstName} {lastName}
+                </h2>
+
+                {age && gender && (
+                  <p className="text-sm text-base-content/70">
+                    {age} · {gender}
+                  </p>
+                )}
+
+                <p className="mt-1 text-sm text-base-content/60 line-clamp-2">
+                  {about}
+                </p>
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <button
-                  className="btn btn-primary mx-2"
+                  className="btn btn-primary btn-outline btn-sm px-6"
                   onClick={() => reviewRequests("accepted", request._id)}
                 >
                   Accept
                 </button>
+
                 <button
-                  className="btn btn-secondary mx-2"
+                  className="btn btn-outline btn-error btn-sm px-6"
                   onClick={() => reviewRequests("rejected", request._id)}
                 >
                   Reject
@@ -79,8 +98,7 @@ const Requests = () => {
       </div>
     ) : (
       <h1 className="flex justify-center my-10">No Requests Found</h1>
-    )
-  );
+    );
 };
 
 export default Requests;
