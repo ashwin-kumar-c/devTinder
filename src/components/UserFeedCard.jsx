@@ -16,28 +16,49 @@ const UserFeedCard = ({user}) => {
   }
 
   return (
-    <div className="card bg-base-300 w-96 shadow-xl mx-auto">
-      <figure>
-        <img
-          src={photoUrl}
-          alt="Shoes"
-        />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">{firstName + " "+ lastName}</h2>
-        {(age && gender) && <p>{age + ", " + gender} </p>}
-        <p>{about}</p>
-        <div className="card-actions justify-center my-4">
-          <button 
-            className="btn btn-primary"
-            onClick={() => handleSendRequest("interested", _id)}>
+    <div className="min-h-screen flex justify-center bg-base-200 pt-10">
+      <div className="card w-80 shadow-xl transition-all duration-300 hover:scale-[1.02]">
+        {/* IMAGE */}
+        <figure className="h-56 overflow-hidden rounded-t-2xl bg-base-600">
+          <img
+            src={photoUrl || "https://via.placeholder.com/400"}
+            alt="User profile"
+            className="h-full w-full object-cover"
+          />
+        </figure>
+
+        {/* BODY */}
+        <div className="card-body bg-slate-800 text-slate-100 rounded-b-2xl p-4 gap-2 flex-none">
+          <h2 className="text-lg font-semibold">
+            {firstName} {lastName}
+          </h2>
+
+          {age && gender && (
+            <p className="text-xs opacity-70">
+              {age} • {gender}
+            </p>
+          )}
+
+          <p className="text-xs leading-relaxed opacity-80 line-clamp-3">
+            {about}
+          </p>
+
+          {/* ACTIONS */}
+          <div className="card-actions justify-center gap-3 mt-3">
+            <button
+              className="btn btn-primary btn-xs px-5 rounded-full"
+              onClick={() => handleSendRequest("interested", _id)}
+            >
               Interested
-          </button>
-          <button 
-            className="btn btn-secondary"
-            onClick={() => handleSendRequest("ignored", _id)}>
-            Ignore
-          </button>
+            </button>
+
+            <button
+              className="btn btn-outline btn-secondary btn-xs px-5 rounded-full"
+              onClick={() => handleSendRequest("ignored", _id)}
+            >
+              Ignore
+            </button>
+          </div>
         </div>
       </div>
     </div>
