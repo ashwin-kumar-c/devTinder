@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { createSocketConnection } from "../store/socket";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -10,6 +10,17 @@ const Chat = () => {
   const user = useSelector((store) => store.user);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const navigate = useNavigate()
+
+  const messageEndRef = useRef(null)
+
+  const scrollToBottom = (behavior) => {
+    messageEndRef.current?.scrollIntoView({behavior})
+  }
+
+  useEffect(() => {
+    scrollToBottom("smooth")
+  }, [messages])
 
   const senderUserId = user?._id;
 
@@ -54,8 +65,9 @@ const Chat = () => {
   return (
     <div className="w-2/3 mx-auto m-6 h-[75vh] flex flex-col rounded-xl border border-gray-700 bg-gray-900 shadow-lg">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-700">
+      <div className="px-6 py-4 flex justify-between border-b border-gray-700">
         <h1 className="text-lg font-semibold text-white">Chat</h1>
+        <button className="text-white font-semibold" onClick={() => navigate("/connections")}>Back</button>
       </div>
 
       {/* Messages Area */}
@@ -80,6 +92,7 @@ const Chat = () => {
               </div>
             );
           })}
+            <div ref={messageEndRef}/>
       </div>
 
       {/* Input Area */}
