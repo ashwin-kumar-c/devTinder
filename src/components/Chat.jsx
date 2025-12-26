@@ -10,19 +10,48 @@ const Chat = () => {
   const user = useSelector((store) => store.user);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [isOnline, setIsOnline] = useState(false);
+  const senderUserId = user?._id;
 
-  const messageEndRef = useRef(null)
+  const messageEndRef = useRef(null);
 
   const scrollToBottom = (behavior) => {
-    messageEndRef.current?.scrollIntoView({behavior})
-  }
+    messageEndRef.current?.scrollIntoView({ behavior });
+  };
 
   useEffect(() => {
-    scrollToBottom("smooth")
-  }, [messages])
+    scrollToBottom("smooth");
+  }, [messages]);
 
-  const senderUserId = user?._id;
+  useEffect(() => {
+    const socket = createSocketConnection()
+
+    socket.on("user online", ({userId}) => {
+      if(userId === targetUserId) {
+        setIsOnline(true)
+      }
+    })
+
+    socket.on("user offline", ({userId}) => {
+      if(userId === targetUserId) {
+        setIsOnline(false)
+      }
+    })
+
+    return () => {
+      socket.off("user online")
+      socket.off("user offline")
+    }
+  }, [targetUserId])
+
+  useEffect(() => {
+    const socket = createSocketConnection()
+    socket.emit("check user online", {targetUserId}, (online) => {
+      setIsOnline(online)
+    })
+  }, [targetUserId])
+
 
   const fetchChats = async () => {
     const chat = await axios.get(`${baseUrl}/chat/${targetUserId}`, {
@@ -65,9 +94,29 @@ const Chat = () => {
   return (
     <div className="w-2/3 mx-auto m-6 h-[75vh] flex flex-col rounded-xl border border-gray-700 bg-gray-900 shadow-lg">
       {/* Header */}
-      <div className="px-6 py-4 flex justify-between border-b border-gray-700">
-        <h1 className="text-lg font-semibold text-white">Chat</h1>
-        <button className="text-white font-semibold" onClick={() => navigate("/connections")}>Back</button>
+      <div className="px-6 py-4 flex items-center justify-between border-b border-gray-700">
+        {/* Left: Chat title + status */}
+        <div className="flex flex-col">
+          <h1 className="text-lg font-semibold text-white flex items-center gap-2">
+            Chat
+            <span
+              className={`w-2.5 h-2.5 mt-1 rounded-full ${
+                isOnline ? "bg-green-500" : "bg-gray-500"
+              }`}
+            />
+            <span className="mt-1 text-sm text-gray-400">
+              {isOnline ? "Online" : "Offline"}
+            </span>
+          </h1>
+        </div>
+
+        {/* Right: Back button */}
+        <button
+          className="text-white font-semibold hover:text-violet-400 transition"
+          onClick={() => navigate("/connections")}
+        >
+          Back
+        </button>
       </div>
 
       {/* Messages Area */}
@@ -92,7 +141,7 @@ const Chat = () => {
               </div>
             );
           })}
-            <div ref={messageEndRef}/>
+        <div ref={messageEndRef} />
       </div>
 
       {/* Input Area */}
