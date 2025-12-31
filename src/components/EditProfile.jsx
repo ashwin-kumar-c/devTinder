@@ -47,12 +47,14 @@ const EditProfile = ({ user }) => {
   return (
     user && (
       <>
-        <div className="min-h-screen bg-base-200 px-6 py-10">
-          <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="min-h-screen bg-base-200 px-4 sm:px-6 py-8 sm:py-10">
+          <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
             {/* LEFT: EDIT PROFILE */}
             <div className="card bg-base-100 shadow-2xl">
               <div className="card-body">
-                <h2 className="card-title text-2xl mb-4">Edit Profile</h2>
+                <h2 className="card-title text-xl sm:text-2xl mb-4">
+                  Edit Profile
+                </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <label className="form-control">
@@ -143,7 +145,7 @@ const EditProfile = ({ user }) => {
             </div>
 
             {/* RIGHT: LIVE PREVIEW */}
-            <div className="sticky top-10 h-fit">
+            <div className="lg:sticky lg:top-10 h-fit">
               <UserFeedCard
                 user={{ firstName, lastName, photoUrl, age, gender, about }}
               />

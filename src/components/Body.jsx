@@ -27,13 +27,18 @@ const Body = () => {
         fetchUser() 
     }, [])
 
-    return(
-        <>
-            <NavBar/>
-            <Outlet/>
-            <Footer/>
-        </>
-    )
+    return (
+      <div className="min-h-screen flex flex-col">
+        <NavBar />
+
+        {/* Main content */}
+        <main className="flex-1 px-2 sm:px-4 md:px-6">
+          <Outlet />
+        </main>
+
+        <Footer />
+      </div>
+    );
 }
 
 export default Body

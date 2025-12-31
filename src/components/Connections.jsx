@@ -29,48 +29,61 @@ const Connections = () => {
   }
 
   return (
-    <div className="text-center my-10">
-      <h1 className="text-bold text-white text-4xl">Connections</h1>
+    <div className="text-center my-10 px-3 sm:px-6">
+      <h1 className="font-bold text-white text-3xl sm:text-4xl mb-8">
+        Connections
+      </h1>
+
       {connections?.map((connection) => {
         const { _id, firstName, lastName, photoUrl, about, age, gender } =
           connection;
+
         return (
           <div
             key={_id}
-            className="w-[45%] mx-auto my-4 p-4
-             flex items-center gap-4
-             rounded-xl bg-gradient-to-r from-gray-900 to-gray-800
-             border border-gray-700 shadow-md hover:shadow-lg
-             transition-all duration-200"
+            className="
+          w-full sm:w-[90%] md:w-[70%] lg:w-[55%]
+          mx-auto my-4 p-4
+          flex items-center gap-4
+          rounded-xl
+          bg-gradient-to-r from-gray-900 to-gray-800
+          border border-gray-700
+          shadow-md hover:shadow-lg
+          transition-all duration-200
+        "
           >
-            {/* Left section (takes remaining space) */}
-            <div className="flex items-center gap-4 flex-1">
+            {/* Left section */}
+            <div className="flex items-center gap-4 flex-1 min-w-0">
               <img
                 src={photoUrl}
                 alt="profile"
-                className="h-16 w-16 rounded-full object-cover ring ring-primary ring-offset-2 ring-offset-base-200"
+                className="
+              h-14 w-14 sm:h-16 sm:w-16
+              rounded-full object-cover
+              ring ring-primary ring-offset-2 ring-offset-base-200
+            "
               />
 
               <div className="text-left min-w-0">
-                <h2 className="text-lg font-semibold text-white truncate">
-                  {`${firstName} ${lastName}`}
+                <h2 className="text-base sm:text-lg font-semibold text-white truncate">
+                  {firstName} {lastName}
                 </h2>
 
                 {age && gender && (
-                  <p className="text-sm text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-400">
                     {age} • {gender}
                   </p>
                 )}
 
-                <p className="text-sm text-gray-300 mt-1 truncate">{about}</p>
+                <p className="text-xs sm:text-sm text-gray-300 mt-1 truncate">
+                  {about}
+                </p>
               </div>
             </div>
 
             {/* Right section */}
             <Link to={`/chat/${_id}`} className="shrink-0">
-              <button
-                className="btn btn-primary btn-outline btn-sm px-6"
-              >
+              <button className="btn btn-primary btn-outline btn-xs sm:btn-sm px-4 sm:px-6">
                 Chat
               </button>
             </Link>

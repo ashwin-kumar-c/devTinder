@@ -24,15 +24,13 @@ const Feed = () => {
         fetchFeed()
     }, [])
 
-    return(
-        userfeed?.length > 0 ? (
-            <div>
-                <UserFeedCard user={userfeed[0]}/>
-            </div>
-        ) : (
-            <h1 className="flex justify-center my-4">No User found</h1>
-        )
-    )
+    return userfeed?.length > 0 ? (
+      <div className="min-h-screen flex justify-center bg-base-200 pt-10">
+        <UserFeedCard user={userfeed[0]} />
+      </div>
+    ) : (
+      <h1 className="text-center my-10 text-gray-400">No user found</h1>
+    );
 }
 
 export default Feed
