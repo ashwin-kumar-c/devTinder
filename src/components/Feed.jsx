@@ -26,7 +26,7 @@ const Feed = () => {
 
     return userfeed?.length > 0 ? (
       <div className="min-h-screen flex justify-center bg-base-200 pt-10">
-        <UserFeedCard user={userfeed[0]} />
+        <UserFeedCard user={userfeed[0]} show={true} />
       </div>
     ) : (
       <h1 className="text-center my-10 text-gray-400">No user found</h1>

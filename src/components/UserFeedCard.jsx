@@ -3,17 +3,21 @@ import { baseUrl } from "../utils/constant";
 import { useDispatch } from "react-redux";
 import { removeUserFromFeed } from "../reducers/feedSlice";
 
-const UserFeedCard = ({user}) => {
-  const {_id, firstName, lastName, photoUrl, age, gender, about} = user
-  const dispatch = useDispatch()
+const UserFeedCard = ({ user, show }) => {
+  const { _id, firstName, lastName, photoUrl, age, gender, about } = user;
+  const dispatch = useDispatch();
 
   const handleSendRequest = async (status, id) => {
-    await axios.post(`${baseUrl}/request/${status}/${id}`, {}, {
-      withCredentials: true
-    })
+    await axios.post(
+      `${baseUrl}/request/${status}/${id}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
 
-    dispatch(removeUserFromFeed(_id))
-  }
+    dispatch(removeUserFromFeed(_id));
+  };
 
   return (
     <div className="card w-80 shadow-xl transition-all duration-300 hover:scale-[1.02]">
@@ -42,21 +46,23 @@ const UserFeedCard = ({user}) => {
           {about}
         </p>
 
-        <div className="card-actions justify-center gap-3 mt-3">
-          <button
-            className="btn btn-primary btn-xs px-5 rounded-full"
-            onClick={() => handleSendRequest("interested", _id)}
-          >
-            Interested
-          </button>
+        {show && (
+          <div className="card-actions justify-center gap-3 mt-3">
+            <button
+              className="btn btn-primary btn-xs px-5 rounded-full"
+              onClick={() => handleSendRequest("interested", _id)}
+            >
+              Interested
+            </button>
 
-          <button
-            className="btn btn-outline btn-secondary btn-xs px-5 rounded-full"
-            onClick={() => handleSendRequest("ignored", _id)}
-          >
-            Ignore
-          </button>
-        </div>
+            <button
+              className="btn btn-outline btn-secondary btn-xs px-5 rounded-full"
+              onClick={() => handleSendRequest("ignored", _id)}
+            >
+              Ignore
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
